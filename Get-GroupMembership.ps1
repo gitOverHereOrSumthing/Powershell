@@ -1,5 +1,28 @@
-param([string] $Name = "", [string] $OutputFile = "None",[string] $AccountType = "User")
+<#
+	.Synopsis
+		Lists all of the groups an account is a member of
+	.Description
+		Lists all of the groups an account is a member of. 
+	.Example
+		Get-GroupMembership -Name "bsmith"
+	.Example
+		Get-GroupMembers -Name "bsmith" -OutputFile "c:\temp\output.txt"
+	.Example
+		Get-GroupMembers -Name "bsmith" -AccountType "computer"
+#>
 
+[CmdletBinding()]
+Param(
+	# The name of the account to check
+	[Parameter(mandatory=$true)]
+	[string] $Name = "", 
+	# The output file name if required
+	[string] $OutputFile = "", 
+	# The type of AD account to check
+	[string] $AccountType = "User" 
+	)
+
+# Body of script
 if ($AccountType -eq "User"){
 	$groups = Get-ADPrincipalGroupMembership -Identity $Name | sort-object
 }
@@ -10,7 +33,7 @@ else {
 	throw "Please provide a valid AccountType (User or Computer)"
 }
 
-if ($OutputFile -ne "None"){
+if ($OutputFile -ne ""){
 	if (Test-Path -Path $OutputFile){
 		Remove-item $OutputFile
 	}
@@ -23,7 +46,7 @@ if ($Name -eq ""){
 foreach($group in $groups) {
     $output = $group.Name
 	
-	if ($OutputFile -ne "None"){
+	if ($OutputFile -ne ""){
 		add-content $OutputFile $output;
 	}
 	echo $output
