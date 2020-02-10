@@ -12,6 +12,6 @@ function get-localadmins {
 	}  
 }
 
-Get-LocalAdmin $ComputerName
+Get-LocalAdmins $ComputerName
 
 Get-WmiObject -Class Win32_UserAccount -Filter  "Name='Administrator'" -ComputerName $ComputerName | Select PSComputername, Name, Status, Disabled, AccountType, Lockout, PasswordRequired, PasswordChangeable, SID 

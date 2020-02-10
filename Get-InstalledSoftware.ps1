@@ -27,7 +27,7 @@ process {
 	foreach($Computer in $ComputerName) {            
 		Write-Verbose "Working on $Computer"            
 		if(Test-Connection -ComputerName $Computer -Count 1 -ea 0) {            
-			$HKLM   = [microsoft.win32.registrykey]::OpenRemoteBaseKey('LocalMachine',$Computer)            
+			$HKLM   = [microsoft.win32.registrykey]::OpenRemoteBaseKey('LocalMachine',$Computer)         
 			$UninstallRef  = $HKLM.OpenSubKey($UninstallRegKey)            
 			$Applications = $UninstallRef.GetSubKeyNames() | sort-Object         
 
